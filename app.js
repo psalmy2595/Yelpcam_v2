@@ -1,49 +1,23 @@
 //import packages and require
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
-const PORT = process.env.PORT || 7000;
+var express    = require("express"),
+    app        = express(),
+    mongoose   = require("mongoose"),
+    campground = require("./models/campground"),
+    seedDB     = require("./seeds");
+    // comment = require("./models/comment");
+    // user = require("./models/user");
 
-//tell express to use body parser
-app.use(express.urlencoded({ extended: true}));
-app.set("view engine", "ejs");
+seedDB();
+//APP CONFIG    
+const PORT = process.env.PORT || 7000;
 
 //create db and connect mongodb to app
 mongoose.connect('mongodb://localhost:27017/yelp_camp', {useNewUrlParser: true, useUnifiedTopology: true});
+app.use(express.urlencoded({ extended: true}));
+//to be able to call dir without the file eextension
+app.set("view engine", "ejs");
 
-//Schema set up..
-var campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
 
-//compile campground into a model
-var campground = mongoose.model("Campground", campgroundSchema);
-
-// campground.create(
-//     {
-//         name: "camp Forestry", 
-//         image: "https://images.pexels.com/photos/2398220/pexels-photo-2398220.jpeg?auto=compress&cs=tinysrgb&h=200"
-  
-//     }, function (err, campground){
-//         if(err){
-//             console.log(err);
-//         } else {
-//             console.log("new campground created ");
-//             console.log(campground);
-//         }
-        
-//     })
-
-// var campgrounds =[
-//     // {name: "camp Forestry", image: "https://images.pexels.com/photos/2398220/pexels-photo-2398220.jpeg?auto=compress&cs=tinysrgb&h=200"},
-//     {name: "camp Nou", image: "https://images.pexels.com/photos/1840394/pexels-photo-1840394.jpeg?auto=compress&cs=tinysrgb&h=200"},
-//     {name: "Camp New", image: "https://images.pexels.com/photos/2662816/pexels-photo-2662816.jpeg?auto=compress&cs=tinysrgb&h=200"},
-//     {name: "Camp Newlife", image: "https://images.pexels.com/photos/2398220/pexels-photo-2398220.jpeg?auto=compress&cs=tinysrgb&h=200"}
-    
-// ]
 
 //Root route
 app.get("/", function(req, res){
@@ -88,9 +62,16 @@ app.get("/campgrounds/new", function(req, res){
 res.render("new");
 
 });
-
+//..................................................
 app.get("/campgrounds/:id", function(req, res){
-    res.send("Welcome");
+   campground.findById(req.params.id, function(err, foundCampground){
+    if(err){
+        res.redirect("/campgrounds")
+    } else{
+        res.render("show", {camp: foundCampground});
+    }
+   })
+   console.log("Welcome");
 });
 
 app.listen(PORT, function(){
