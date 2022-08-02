@@ -4,13 +4,21 @@
                 <div class="ui huge header"><%= camp.name %></div>
                 <div class="ui top attached">
                     <div class="item">
-                        <img class="ui centered rounded image"src="<%= camp.image %>" >
+                        <img class="ui centered rounded image"src="<%= camp.image %>">
                              <div class="description">     
                                <p><%= camp.description %></p>
                         </div>
                     </div>
                 </div>  
             </div>
+
+                     <div>
+                            <% camp.comments.forEach(function(comment) { %>
+                            <p>
+                                <strong><%= comment.author %></strong> - <%= comment.text %>
+                            </p>
+                        <% }); %>
+                    </div>
 
 
             <%- include ('partials/footer') %>

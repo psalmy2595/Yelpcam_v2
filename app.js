@@ -71,7 +71,7 @@ app.get("/campgrounds/:id", function(req, res){
         console.log(err)
         // res.redirect("/campgrounds")
     } else{
-        console.log(foundCampground)
+        // console.log(foundCampground)
         //render show template with that campground
         res.render("show", {camp: foundCampground});
     }
