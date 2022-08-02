@@ -1,6 +1,6 @@
 var mongoose   = require("mongoose"),
     Campground = require("./models/campground"),
-    comment    = require("./models/comment");
+    Comment    = require("./models/comment");
 
     //array of Objects
     var data = [
@@ -36,18 +36,18 @@ var mongoose   = require("mongoose"),
                             } else {
                                 console.log("added a campground");
                                 //create a comment on each camoground
-                                comment.create({
+                                Comment.create({
                                     text: "This is a new comment/text",
                                     author: "Jay"
-                                }, function(err, commen){
+                                }, function(err, comment){
                                     if (err){
                                         console.log(err);
                                     }else{
 
                                     }
-                                    campground.comment.push(comment);
+                                    campground.comments.push(comment);
                                     campground.save();
-                                    console.log('created a ner comment')
+                                    console.log('created a new comment')
                                 });
                             }
                         });
