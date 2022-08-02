@@ -63,16 +63,20 @@ app.get("/campgrounds/new", function(req, res){
 res.render("new");
 
 });
-//..................................................
+//Show Route - Showsmore info about one campground
 app.get("/campgrounds/:id", function(req, res){
-   campground.findById(req.params.id, function(err, foundCampground){
+    //find the campground wit the providede ID
+   campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
     if(err){
-        res.redirect("/campgrounds")
+        console.log(err)
+        // res.redirect("/campgrounds")
     } else{
+        console.log(foundCampground)
+        //render show template with that campground
         res.render("show", {camp: foundCampground});
     }
-   })
-   console.log("Welcome");
+   });
+//    console.log("Welcome");
 });
 
 app.listen(PORT, function(){

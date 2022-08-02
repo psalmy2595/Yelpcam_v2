@@ -25,7 +25,7 @@ var mongoose   = require("mongoose"),
             //Delete All Campgrounds
             Campground.deleteMany({}, function(err){
                 if (err){
-                    consolle.log(err)
+                    console.log(err)
                 }
                 console.log("all campgrounds deleted")
                     //add a few campgrounds
@@ -35,20 +35,41 @@ var mongoose   = require("mongoose"),
                                 console.log(err)
                             } else {
                                 console.log("added a campground");
-                                //create a comment on each camoground
-                                Comment.create({
-                                    text: "This is a new comment/text",
-                                    author: "Jay"
-                                }, function(err, comment){
+                                //each time i reload my server delete all from database then 
+                                Comment.deleteMany({}, function(err){
                                     if (err){
-                                        console.log(err);
+                                        console.log(err)
                                     }else{
-
+                                        //create and save to db 
+                                        Comment.create({
+                                            text: "This is a new comment/text",
+                                            author: "Jay"
+                                        }, function(err, comment){
+                                            if (err){
+                                                console.log(err);
+                                            }else{
+        
+                                            }
+                                            campground.comments.push(comment);
+                                            campground.save();
+                                            console.log('created a new comment')
+                                        }); 
                                     }
-                                    campground.comments.push(comment);
-                                    campground.save();
-                                    console.log('created a new comment')
-                                });
+                                })
+                                // //create a comment on each camoground
+                                // Comment.create({
+                                //     text: "This is a new comment/text",
+                                //     author: "Jay"
+                                // }, function(err, comment){
+                                //     if (err){
+                                //         console.log(err);
+                                //     }else{
+
+                                //     }
+                                //     campground.comments.push(comment);
+                                //     campground.save();
+                                //     console.log('created a new comment')
+                                // });
                             }
                         });
                 }); 
