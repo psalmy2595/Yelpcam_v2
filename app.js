@@ -38,7 +38,15 @@ app.get("/campgrounds", function(req, res){
     });
    
 });
+//THE LOGIN GET ROUTE
+app.get("/login", function(req, res){
+    res.render("login");
+});
 
+// THE LOGIN POST ROUTE
+app.post("signup", function(req, res){
+    res.render("signup");
+});
 app.post("/campgrounds", function(req, res){
     var name = req.body.name;
     var image = req.body.image; 
